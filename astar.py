@@ -1,4 +1,4 @@
-
+import heapq
 from path_item import PathItem
 
 def find_by_less_cost(list, target):
@@ -22,30 +22,33 @@ def resolve(start, target):
     """ doc """
     open_list = []
     close_list = []
-    open_list.append(start)
+    heapq.heappush(open_list, (0, start))
 
     #current = find_by_less_cost(open_list, target)
     while len(open_list) > 0:
-        current = open_list[0]
+        current = open_list[0][1]
         if current.board == target.board:
             break
-        open_list.remove(current)
+        heapq.heappop(open_list)
         close_list.append(current)
 
         nodes = current.get_adjacent()
         for node in nodes:
             if node.board not in [x.board for x in close_list]:
-                if node.board in [x.board for x in open_list]:
-                    existent = [x for x in open_list if x.board == node.board][0]
+                if node.board in [item[1].board for item in open_list]:
+                    existent_tupla = [item for item in open_list if item[1].board == node.board][0]
+                    existent = existent_tupla[1]
                     if existent.calc_G() < node.calc_G():
                         existent.parent = current
+                        old_cost = existent.costF
                         existent.recalculate_cost(target)
+                        #open_list[old_cost].remove(existent)
+                        open_list.remove(existent_tupla)
+                        heapq.heappush(open_list, (existent.costF, existent))
                 else:
                     new_item = PathItem(node.board, current)
                     new_item.recalculate_cost(target)
-                    open_list.append(new_item)
-        #current = find_by_less_cost(open_list, target)
-        open_list = sorted(open_list, key=lambda x: x.costF)
+                    heapq.heappush(open_list, (new_item.costF, new_item))
 #end of while
     if current.board == target.board:
         return_list = []

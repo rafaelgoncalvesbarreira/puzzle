@@ -43,7 +43,10 @@ def resolve(start, target):
                         old_cost = existent.costF
                         existent.recalculate_cost(target)
                         #open_list[old_cost].remove(existent)
-                        open_list.remove(existent_tupla)
+                        #open_list.remove(existent_tupla)
+                        index = open_list.index(existent_tupla)
+                        open_list[index] = open_list[-1]
+                        heapq.heapify(open_list)
                         heapq.heappush(open_list, (existent.costF, existent))
                 else:
                     new_item = PathItem(node.board, current)

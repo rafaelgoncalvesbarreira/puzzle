@@ -22,11 +22,11 @@ def resolve(start, target):
     """ doc """
     open_list = []
     close_list = []
-    heapq.heappush(open_list, (0, start))
+    heapq.heappush(open_list, start)
 
     #current = find_by_less_cost(open_list, target)
     while len(open_list) > 0:
-        current = open_list[0][1]
+        current = open_list[0]
         if current.board == target.board:
             break
         heapq.heappop(open_list)
@@ -35,23 +35,19 @@ def resolve(start, target):
         nodes = current.get_adjacent()
         for node in nodes:
             if node.board not in [x.board for x in close_list]:
-                if node.board in [item[1].board for item in open_list]:
-                    existent_tupla = [item for item in open_list if item[1].board == node.board][0]
-                    existent = existent_tupla[1]
+                if node.board in [item.board for item in open_list]:
+                    existent = [item for item in open_list if item.board == node.board][0]
                     if existent.calc_G() < node.calc_G():
                         existent.parent = current
-                        old_cost = existent.costF
                         existent.recalculate_cost(target)
-                        #open_list[old_cost].remove(existent)
-                        #open_list.remove(existent_tupla)
-                        index = open_list.index(existent_tupla)
+                        index = open_list.index(existent)
                         open_list[index] = open_list[-1]
                         heapq.heapify(open_list)
-                        heapq.heappush(open_list, (existent.costF, existent))
+                        heapq.heappush(open_list, existent)
                 else:
                     new_item = PathItem(node.board, current)
                     new_item.recalculate_cost(target)
-                    heapq.heappush(open_list, (new_item.costF, new_item))
+                    heapq.heappush(open_list, new_item)
 #end of while
     if current.board == target.board:
         return_list = []

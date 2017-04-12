@@ -3,11 +3,12 @@ class PathItem:
     def __init__(self, board, parent=None):
         self.board = board
         self.parent = parent
+        self.cost_f = 0
 
-    # def equals(self, other):
-    #     return self.item.equals(other.item)
+    def __lt__(self, other):
+        return self.cost_f < other.cost_f
+
     def equals(self, other):
-        #return self.calculate_equals(other) == self.size
         return self.board==other.board
 
     def calculate_equals(self, target):
@@ -33,7 +34,7 @@ class PathItem:
         return H
 
     def recalculate_cost(self, target):
-        self.costF = self.calculate_cost(target)
+        self.cost_f = self.calculate_cost(target)
     def calculate_cost(self, target):
         '''
         F = G + H

@@ -9,9 +9,9 @@ if __name__ == "__main__":
     #start = PathItem([[1,2,3],[4,0,5],[7,8,6]]) # ok
     #start = PathItem([[1, 2, 3], [0, 4, 5], [7, 8, 6]]) #ok
     #start = PathItem([[1, 2, 3], [6, 0, 8], [5, 4, 7]]) #ok 11
-    start = PathItem([[7, 2, 4 ], [5, 0, 6], [8, 3, 1]] ) # ok 21
-    #start=PathItem( [[6, 4, 7], [8, 5, 0], [3, 2, 1]]  ) # =(
-    #start = PathItem([[7, 2, 4], [5, 0, 6], [8, 3, 1]] )
+    #start = PathItem([[7, 2, 4 ], [5, 0, 6], [8, 3, 1]] ) # ok 21
+    #start=PathItem( [[6, 4, 7], [8, 5, 0], [3, 2, 1]]  ) # ok 32
+    start = PathItem( [[8, 7, 6], [5, 4, 3], [2, 1, 0]]  ) # ok 31
     print("starting...")
     t1 = datetime.now()
     steps = astar.resolve(start,target)

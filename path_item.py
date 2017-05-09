@@ -28,10 +28,27 @@ class PathItem:
 
         return count
 
+    def find_indexes(self, value):
+        for i in range(len(self.board)):
+            for j in range(len(self.board[0])):
+                if self.board[i][j]==value:
+                    return (i,j)
+
     def calc_H(self, target):
-        size = len(self.board) * len(self.board[0])
-        H = (size - self.calculate_equals(target))
+        # size = len(self.board) * len(self.board[0])
+        # H = (size - self.calculate_equals(target))
+        # return H
+
+        #distancia de manhatan
+        H = 0
+        for i in range(len(target.board)):
+            for j in range(len(target.board[0])):
+                indexes = self.find_indexes(target.board[i][j])
+                H += abs(indexes[0] - i)
+                H += abs(indexes[1] - j)
+        
         return H
+
 
     def recalculate_cost(self, target):
         self.cost_f = self.calculate_cost(target)
